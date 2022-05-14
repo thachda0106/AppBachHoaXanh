@@ -1,0 +1,20 @@
+export default {
+  colorPrimary: "#037841",
+  colorPrimaryLight: "#1d8a53",
+  colorPrimaryDark: "#006133",
+  colorGrayBackground: "#eee",
+  colorPrimaryTextBackground: "#def1e9",
+  colorYellow: "#f5f101",
+  colorOrange: "#feac00",
+  colorGrayText: "#999",
+  colorGreen: '#0DA51B',
+  colorLightBlack: "#333",
+  colorDarkGray: "#999",
+  colorGray: "#bbb",
+  colorLightGray: "#ddd",
+  colorPrimaryButton: "#e3ebe7",
+  colorRed: "red",
+  colorBlueViolet: "#8A2BE2",
+  colorInfo: "#218DF2",
+  colorStar: '#F2A221'
+};
