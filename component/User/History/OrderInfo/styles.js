@@ -164,5 +164,22 @@ export const styles = StyleSheet.create({
   bottomView:{
     height: 180,
     backgroundColor: 'pink'
+  },
+  exportBtn: {
+    width: 76, 
+    height: 32,
+    backgroundColor: Color.colorPrimary,
+    borderRadius: 15,
+    padding: 5,
+    marginRight: 10
+  },
+  pdfText: {
+    height: '100%',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: 'white',
+    fontSize: 13,
+    fontWeight: 'bold',
   }
+
 });
