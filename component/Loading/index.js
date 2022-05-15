@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import LoadingImage from '../../assets/img/tien/loading.gif'
+import LoadingImage from '../../assets/img/tien/loading_img.gif'
+import LoadingBarImage from '../../assets/img/tien/loading_img_2.gif'
 
 const Loading = () => {
   return (
     <View style={styles.container}>
       <Image source={LoadingImage} style={styles.loadingImg} />
+      <Image source={LoadingBarImage} style={[styles.loadingImg, {width: 60, height: 60, marginTop: -48}]} />
     </View>
   )
 }
@@ -26,8 +28,9 @@ const styles = StyleSheet.create({
         zIndex: 200
     },
     loadingImg:{
-        width: 120,
-        height: 120,
-        resizeMode: 'contain'
+        width: 240,
+        height: 240,
+        resizeMode: 'contain',
+        marginTop: -100
     }
 })
