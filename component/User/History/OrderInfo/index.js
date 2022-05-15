@@ -6,7 +6,7 @@ import {
   Alert,
   Image,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { styles } from "./styles";
 import { Function } from "../../../../Constant/Function";
 import Color from "../../../../Constant/Color";
@@ -23,6 +23,8 @@ import LocationImg from "../../../../assets/img/tien/location_icon.png";
 import MoneysIcon from "../../../../assets/img/tien/moneys_icon.png";
 import APICaller from "../../../../local-data/APICaller";
 import Loading from "../../../Loading";
+import {printToFileAsync} from 'expo-print';
+import { shareAsync } from 'expo-sharing';
 
 const OrderInfo = (props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +38,6 @@ const OrderInfo = (props) => {
       }
     });
   }, [state]);
-
   const updateOrderStatus = (status) => {
     let content = "";
     if (status === "DELIVERING") {
@@ -100,8 +101,103 @@ const OrderInfo = (props) => {
     ]);
   };
 
-  if (!order) return <></>;
 
+  const creatHTML = (order, data) => {
+      return `
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+      <title>Document</title>
+    
+      <style>
+        body {
+          width: 100%;
+          height: 100%;
+          background-color: rgba(221, 221, 221, 0.282);;
+          display: flex;
+          flex-direction: column;
+          padding: 30px;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="title-wrapper" style="display: flex; flex-direction: row;">
+        <i class="fa-solid fa-angle-left"
+          style="color:#000; font-weight: 900; font-size: 20px"></i>
+        <p class="textStyle" style="margin: 0; margin-left: 20px; width: auto; font-size:20px;font-weight:500">Chi tiết đơn hàng</p>
+    
+      </div>
+      <div style="color: #000; width: 100%; height: 10px; margin-top:8px; border-top: 2px solid #ddd" > </div>
+      <p style="margin: 0px">Mã đơn hàng <span>#${order.id}</span> </p>
+    
+      <div style="background-color: #fff; display: flex; flex-direction:row; padding: 10 0">
+        <div style="display: flex; flex-direction:column">
+        <img src= ${'https://cdn-icons-png.flaticon.com/512/2972/2972543.png'} style="width:40px; height:40px">
+          ${order.orderStatus === "PENDING" ? '<span>Đang duyệt<span>': ''}
+          ${order.orderStatus === "DELIVERING"? '<span>Đang giao<span>': ''}
+          ${order.orderStatus === "RECEIVED" ? '<span>Đã nhận<span>': ''}
+        </div>
+        <p style="margin: 0">${Function.getOrderName(order)}</p>
+      </div>
+      
+      <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:column;">
+          
+      <p style="margin: 0">        
+       <img src=${'https://cdn-icons-png.flaticon.com/512/1198/1198464.png'} style="width:20px; height:20px">
+          01 Lê Thành Phương, thành phố Tuy Hòa, Phú Yên</p>
+    
+        <p style="margin: 0">       
+         <img src=${'https://cdn-icons.flaticon.com/png/512/3367/premium/3367586.png?token=exp=1652624901~hmac=b2b76e3d418c05c8b861722cc4b7f167'} style="width:20px; height:20px">
+${order.shippingAddress}</p>
+      </div>
+    
+    
+      <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:column;">
+        <h3>Tóm tắt đơn hàng</h3>
+      ${Function.htmlOrderProducts(order)}
+      <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:column;">
+        <p style="margin: 0; margin-right: 40px">Tổng tạm Tính <span>${Function.toVND(Function.getOrderAllPriceNoVoucher(order))}</span></p>
+        <p style="margin: 0; margin-right: 40px">Khuyến mãi từ voucher <span> -${Function.toVND(order.voucherDiscount)}</span></p>
+        <p style="margin: 0; margin-right: 40px">Phí vận chuyển <span>Miễn phí</span>  </p>
+      </div>
+    
+    
+      <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:row; padding: 10; align-items: center">
+        <span>Tổng cộng</span>
+        <img src=${'https://cdn-icons-png.flaticon.com/512/631/631200.png'} style="width:20px; height:20px; margin-top: 5px; margin-bottom: 5px">
+        <span> ${Function.toVND(Function.getOrderAllPrice(order))}</span>
+    
+      </div>
+    
+    
+    </body>
+    
+    </html>
+    
+    
+          
+    `;
+
+  }
+  let generatePDF =  async () => {
+    try {
+        const data = {PendingImg, DeliveringImg, ReceivedImg}
+        const { uri } = await printToFileAsync({ html: creatHTML(order,data), base64: false });
+        
+        await shareAsync(uri)
+        return uri 
+    } catch (err) {
+        console.error(err);
+    }
+}
+  if (!order) return <></>;
+  
   return (
     <View style={styles.container}>
       {isLoading && <Loading />}
@@ -120,6 +216,9 @@ const OrderInfo = (props) => {
           />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chi tiết đơn hàng</Text>
+        <TouchableOpacity onPress={()=>{
+              generatePDF()
+        }} style={styles.exportBtn}><Text style={styles.pdfText} >Xuất PDF</Text></TouchableOpacity>
       </View>
       <View
         style={{
