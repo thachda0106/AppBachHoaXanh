@@ -7,7 +7,7 @@ import {
   View,
   Keyboard,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { styles } from "./styles";
 import LogoImg from "../../../assets/img/logo-reverse.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -23,6 +23,8 @@ const LoginForm = (props) => {
   const [state, dispatch] = useContext(Context);
   const [showdialog, setShowDialog] = useState(false);
   const [dialogMode, setDialogMode] = useState(1); // 1: success, 2: fail
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
   // Function
   const closeDialog = () => {
@@ -128,10 +130,9 @@ const LoginForm = (props) => {
   const checkLogin = () => {
     const userList = state.thach.users;
     for (let i = 0; i < userList.length; i++) {
-      console.log(userList[i].avatar)
       if (
-        userList[i].username === state.thach.component.loginForm.username &&
-        userList[i].password === state.thach.component.loginForm.password
+        userList[i].username === username &&
+        userList[i].password === password
       ) {
         dispatch(Actions.getCurrentUser(userList[i]));
         return true;
@@ -181,9 +182,9 @@ const LoginForm = (props) => {
             placeholderTextColor="#999"
             style={styles.input}
             placeholder="Tên đăng nhập"
-            value={state.thach.component.loginForm.username}
+            value={username}
             onChangeText={(text) => {
-              dispatch(Actions.typeUsername(text));
+              setUsername(text)
             }}
           />
         </View>
@@ -194,9 +195,9 @@ const LoginForm = (props) => {
             secureTextEntry={true}
             style={styles.input}
             placeholder="Mật khẩu"
-            value={state.thach.component.loginForm.password}
+            value={password}
             onChangeText={(text) => {
-              dispatch(Actions.typePassword(text));
+              setPassword(text)
             }}
           />
         </View>

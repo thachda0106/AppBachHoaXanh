@@ -22,15 +22,22 @@ import { Function } from "../../../Constant/Function";
 import Context from "../../../local-data/Context";
 import * as Actions from "../../../local-data/Actions";
 import Color from "../../../Constant/Color";
+import APICaller from "../../../local-data/APICaller";
+import Loading from "../../Loading";
 
 const ForgetPass = (props) => {
   const [state, dispatch] = useContext(Context);
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [userID, setUserID] = useState("");
+  const [user, setUser] = useState();
   const [otp, setOtp] = useState("");
   const [sendOtp, setSendOtp] = useState(false);
   const [timeCountOtp, setTimeCountOtp] = useState(0);
   const [password, setPassword] = useState("");
   const [rightOtp, setRightOtp] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [retypeNewPassword, setRetypeNewPassword] = useState("");
 
   // Bộ đếm nút gửi lại
   useEffect(() => {
@@ -46,17 +53,99 @@ const ForgetPass = (props) => {
     }
   }, [timeCountOtp]);
 
-  const handleSendOtp = () => {
+  const handleSendOtp = async () => {
+    let userIDTemp = findIDbyEmail(email)
+    setUserID(userIDTemp)
     if (checkEmail()) {
-      dispatch(Actions.generateOtp(email));
-      setSendOtp(true);
-      setTimeCountOtp(5);
+      setIsLoading(true);
+      let res = await APICaller.generateOtp(userIDTemp, email);
+      if (res.status > 199 && res.status < 299) {
+        res = await APICaller.getAPIUsers();
+        setIsLoading(false);
+        setSendOtp(true);
+        setTimeCountOtp(5);
+        if (res.status > 199 && res.status < 299) {
+          dispatch(Actions.setUsersFromAPI(res.data));
+          Function.showToast("success", "Mã otp đã được gửi vào email của bạn");
+        } else {
+          Function.showToast("error", "Đã có lỗi khi get users " + res.status);
+        }
+      } else {
+        setIsLoading(false);
+        Function.showToast("error", "Đã có lỗi khi generate otp " + res.status);
+      }
     }
   };
 
-  const handleGetPassword = () => {
-    checkOtp();
+  const checkOtp = () => {
+    for (let i = 0; i < state.thach.users.length; i++) {
+      if (state.thach.users[i].userID == userID) {
+        if (otp == state.thach.users[i].otp) {
+          setUser(state.thach.users[i]);
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
   };
+
+  const handleConfirmOtp = () => {
+    if (!checkOtp()) {
+      Function.showToast("error", "OTP không chính xác");
+    } else {
+      setRightOtp(true);
+    }
+  };
+
+  const checkPassword = () => {
+    if (newPassword === "" || retypeNewPassword === "") {
+      Function.showToast("error","Mật khẩu không được trống");
+      return false;
+    }
+    if (newPassword !== retypeNewPassword) {
+      Function.showToast("error","Nhập lại mật khẩu không trùng khớp");
+      return false;
+    }
+    return true;
+  };
+
+  const createNewPassword = async () => {
+    if (checkPassword()) {
+      user.password = newPassword
+      setIsLoading(true);
+      let res = await APICaller.setNewUserPassword(user);
+      if (res.status > 199 && res.status < 299) {
+        res = await APICaller.getAPIUsers()
+        setIsLoading(false);
+        if(res.status > 199 && res.status < 299){
+          dispatch(Actions.setUsersFromAPI(res.data))
+          Function.showToast("success", "Tạo mật khẩu mới thành công");
+          props.navigation.navigate("LoginForm", {});
+        }
+        else{
+          Function.showToast(
+            "error",
+            "Đã có lỗi xảy ra khi get users " + res.status
+          );
+        }
+      } else {
+        Function.showToast(
+          "error",
+          "Đã có lỗi xảy ra khi tạo mật khẩu mới " + res.status
+        );
+      }
+    }
+  };
+
+  const findIDbyEmail = (email) =>{
+    for(let i = 0; i<state.thach.users.length; i++){
+      if(state.thach.users[i].email === email){
+        return state.thach.users[i].userID
+      }
+    }
+  }
 
   const checkEmail = () => {
     if (email.trim() === "") {
@@ -69,35 +158,18 @@ const ForgetPass = (props) => {
     }
     for (let i = 0; i < state.thach.users.length; i++) {
       if (state.thach.users[i].email === email) {
-        return true;
+        return state.thach.users[i].userID;
       }
     }
     Function.showToast("error", "Không tìm thấy tài khoản này");
     return false;
   };
 
-  const checkOtp = () => {
-    if (!checkEmail()) {
-      return false;
-    }
-    if (otp.trim() === "") {
-      Function.showToast("error", "OTP không được để trống");
-      return false;
-    }
-    for (let i = 0; i < state.thach.users.length; i++) {
-      if (state.thach.users[i].userToken == otp) {
-        dispatch(Actions.clearOtp(email));
-        setPassword(state.thach.users[i].password);
-        return true;
-      }
-    }
-    setPassword("");
-    Function.showToast("error", "OTP không chính xác");
-    return false;
-  };
+  
 
   return (
     <View style={styles.container}>
+      {isLoading && <Loading />}
       {/* Nut back */}
       <View style={styles.backWrapper}>
         <TouchableOpacity
@@ -144,6 +216,7 @@ const ForgetPass = (props) => {
             <TouchableOpacity
               style={styles.sendOtpBtn}
               onPress={() => {
+                Keyboard.dismiss();
                 handleSendOtp();
               }}
             >
@@ -169,39 +242,55 @@ const ForgetPass = (props) => {
             }}
           />
         </View>
-        {
-          rightOtp && <View style={{width: '100%'}}>
-          <View style={styles.inputWrapper}>
-            <FontAwesomeIcon icon={faLock} size={22} color={"#999"} />
-            <TextInput
-              secureTextEntry={true}
-              placeholderTextColor="#999"
-              placeholder="Nhập mật khẩu mới"
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.inputWrapper}>
-            <FontAwesomeIcon icon={faLock} size={22} color={"#999"} />
-            <TextInput
-              secureTextEntry={true}
-              placeholderTextColor="#999"
-              placeholder="Xác nhận mật khẩu mới"
-              style={styles.input}
-            />
-          </View>
-
+        {!rightOtp && (
           <TouchableOpacity
             activeOpacity={0.4}
             onPress={() => {
               Keyboard.dismiss();
-              handleGetPassword();
+              handleConfirmOtp();
             }}
             style={styles.loginButton}
           >
-            <Text style={styles.loginButtonText}>Đặt mật khẩu mới</Text>
+            <Text style={styles.loginButtonText}>Xác thực OTP</Text>
           </TouchableOpacity>
-        </View>
-        }
+        )}
+        {rightOtp && (
+          <View style={{ width: "100%" }}>
+            <View style={styles.inputWrapper}>
+              <FontAwesomeIcon icon={faLock} size={22} color={"#999"} />
+              <TextInput
+                secureTextEntry={true}
+                placeholderTextColor="#999"
+                placeholder="Nhập mật khẩu mới"
+                style={styles.input}
+                value={newPassword}
+                onChangeText={(text)=>setNewPassword(text)}
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <FontAwesomeIcon icon={faLock} size={22} color={"#999"} />
+              <TextInput
+                secureTextEntry={true}
+                placeholderTextColor="#999"
+                placeholder="Xác nhận mật khẩu mới"
+                style={styles.input}
+                value={retypeNewPassword}
+                onChangeText={(text)=>setRetypeNewPassword(text)}
+              />
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0.4}
+              onPress={() => {
+                Keyboard.dismiss();
+                createNewPassword();
+              }}
+              style={styles.loginButton}
+            >
+              <Text style={styles.loginButtonText}>Đặt mật khẩu mới</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <Text style={styles.registerWrapper}>
           Chưa có tài khoản
