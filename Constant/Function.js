@@ -221,4 +221,20 @@ export const Function = {
     rates = (star / sum) * 5
     return Math.round(rates * 10) / 10
   },
+
+  htmlOrderProducts: (order)=>{
+    console.log(order)
+          let html = ``
+          order.listProductCart.forEach(product => {
+            html += `        
+              <div style="margin: 0; display: flex; flex-direction:row; align-items:center; padding: 10">
+        <span style="margin-right: 20px"> ${product.quantity}sp </span> 
+          <img src="${product.img}" style="width:40px; height:40px;style="margin-right: 20px"">
+          <p> ${product.productName} <span>${Function.toVND( product.price * (100 - product.priceDiscount)/100)}</span></p>
+        </div>
+      </div>`
+            
+          })
+          return html
+  }
 };

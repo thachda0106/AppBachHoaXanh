@@ -118,9 +118,10 @@ const OrderInfo = (props) => {
         body {
           width: 100%;
           height: 100%;
-          background-color: #eee;
+          background-color: rgba(221, 221, 221, 0.282);;
           display: flex;
           flex-direction: column;
+          padding: 30px;
         }
       </style>
     </head>
@@ -135,9 +136,9 @@ const OrderInfo = (props) => {
       <div style="color: #000; width: 100%; height: 10px; margin-top:8px; border-top: 2px solid #ddd" > </div>
       <p style="margin: 0px">Mã đơn hàng <span>#${order.id}</span> </p>
     
-      <div style="background-color: #fff; display: flex; flex-direction:row">
+      <div style="background-color: #fff; display: flex; flex-direction:row; padding: 10 0">
         <div style="display: flex; flex-direction:column">
-        <img src=${data.PendingImg} style="width:40px; height:40px">
+        <img src= ${'https://cdn-icons-png.flaticon.com/512/2972/2972543.png'} style="width:40px; height:40px">
           ${order.orderStatus === "PENDING" ? '<span>Đang duyệt<span>': ''}
           ${order.orderStatus === "DELIVERING"? '<span>Đang giao<span>': ''}
           ${order.orderStatus === "RECEIVED" ? '<span>Đã nhận<span>': ''}
@@ -146,34 +147,31 @@ const OrderInfo = (props) => {
       </div>
       
       <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:column;">
-        <p style="margin: 0">01 Lê Thành Phương, thành phố Tuy Hòa, Phú Yên</p>
+          
+      <p style="margin: 0">        
+       <img src=${'https://cdn-icons-png.flaticon.com/512/1198/1198464.png'} style="width:20px; height:20px">
+          01 Lê Thành Phương, thành phố Tuy Hòa, Phú Yên</p>
     
-        <p style="margin: 0">Đia chỉ</p>
+        <p style="margin: 0">       
+         <img src=${'https://cdn-icons.flaticon.com/png/512/3367/premium/3367586.png?token=exp=1652624901~hmac=b2b76e3d418c05c8b861722cc4b7f167'} style="width:20px; height:20px">
+${order.shippingAddress}</p>
       </div>
     
     
       <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:column;">
         <h3>Tóm tắt đơn hàng</h3>
-    
-        <div style="margin: 0; display: flex; flex-direction:row; align-items:center">
-          <span>10X</span> 
-          <img src="../../../../assets/img/tien/pending.png" style="width:40px; height:40px">
-          <p>Dầu simple  <span>48.000đ</span></p>
-        </div>
-      </div>
-    
-    
+      ${Function.htmlOrderProducts(order)}
       <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:column;">
-        <p style="margin: 0">Tổng tạm Tính <span>485.000đ</span></p>
-        <p style="margin: 0">Khuyến mãi từ voucher <span> -0đ</span></p>
-        <p style="margin: 0">Phí vận chuyển <span>Miễn phí</span>  </p>
+        <p style="margin: 0; margin-right: 40px">Tổng tạm Tính <span>${Function.toVND(Function.getOrderAllPriceNoVoucher(order))}</span></p>
+        <p style="margin: 0; margin-right: 40px">Khuyến mãi từ voucher <span> -${Function.toVND(order.voucherDiscount)}</span></p>
+        <p style="margin: 0; margin-right: 40px">Phí vận chuyển <span>Miễn phí</span>  </p>
       </div>
     
     
-      <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:row;">
+      <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:row; padding: 10; align-items: center">
         <span>Tổng cộng</span>
-        <img src="../../../../assets/img/tien/pending.png" style="width:40px; height:40px">
-        <span>485.000đ</span>
+        <img src=${'https://cdn-icons-png.flaticon.com/512/631/631200.png'} style="width:20px; height:20px; margin-top: 5px; margin-bottom: 5px">
+        <span> ${Function.toVND(Function.getOrderAllPrice(order))}</span>
     
       </div>
     
@@ -199,7 +197,7 @@ const OrderInfo = (props) => {
     }
 }
   if (!order) return <></>;
-
+  
   return (
     <View style={styles.container}>
       {isLoading && <Loading />}
