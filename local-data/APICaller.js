@@ -230,6 +230,7 @@ export default APICaller = {
 
   //======================================================
   //   Users
+  //Lấy cả list users
   getAPIUsers: async () => {
     return axios({
       method: "GET",
@@ -239,6 +240,7 @@ export default APICaller = {
       .then((res) => res)
       .catch((error) => error.response);
   },
+  //Lấy 1 user
   getAPIUser: async (userID) => {
     return axios({
       method: "GET",
@@ -248,6 +250,42 @@ export default APICaller = {
       .then((res) => res)
       .catch((error) => error.response);
   },
+  //Gửi yêu cầu quên mật khẩu
+  generateOtp: async (userID, email) => {
+    console.log("=========")
+    console.log(userID+"-"+email)
+    return axios({
+      method: "POST",
+      url: "https://bach-hoa.herokuapp.com/users/forgot-password",
+      data: JSON.stringify({
+        id: Number(userID),
+        emailAddress: email,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res)
+      .catch((error) => {
+        return error.response;
+      });
+  },
+  //Đặt mật khẩu mới
+  setNewPassword: async (userID, otp, newPassword) => {
+    return axios({
+      method: "POST",
+      url: "https://bach-hoa.herokuapp.com/users/update-password",
+      data: JSON.stringify({
+        id: userID,
+        otp: otp,
+        password: newPassword,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res)
+      .catch((error) => {
+        return error.response;
+      });
+  },
+
   // Thêm sản phẩm vào giỏ hàng của người dùng
   addProductToUserCart: async (userID, productCart) => {
     return axios({
@@ -385,6 +423,34 @@ export default APICaller = {
     //     userListCart: user.userListCart,
     //   })
     // );
+  },
+
+  setNewUserPassword: async (user) => {
+    return axios({
+      method: "PUT",
+      url: `https://bach-hoa.herokuapp.com/users/update/${user.userID}`,
+      data: JSON.stringify({
+        userID: user.userID,
+        fullName: user.fullName,
+        emailAddress: user.email,
+        username: user.username,
+        password: user.password,
+        address: user.address,
+        phoneNumber: user.phoneNumber,
+        otp: "",
+        shippingAddress: user.address,
+        userListCart: user.userListCart,
+        userListVoucher: user.userListVoucher,
+        userType: user.userType,
+        status: "ENABLE",
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res)
+      .catch((error) => {
+        console.log("Lỗi khi set new password");
+        return error.response;
+      });
   },
 
   // ========================================= Comment
@@ -542,7 +608,7 @@ export default APICaller = {
         shippingAddress: order.shippingAddress,
         listProductCart: order.listProductCart,
         voucherDiscount: order.voucherDiscount,
-        voucherID: order.voucherID
+        voucherID: order.voucherID,
       }),
       headers: { "Content-Type": "application/json" },
     })
