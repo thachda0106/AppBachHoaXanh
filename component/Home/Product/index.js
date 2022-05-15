@@ -4,6 +4,9 @@ import { styles } from "./style";
 import { Function } from "../../../Constant/Function";
 import Context from "../../../local-data/Context";
 import BlinkSaleImg from "../../../assets/img/tien/blink-sale.gif";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import Color from "../../../Constant/Color";
 
 const Product = (props) => {
   // Variable
@@ -49,7 +52,10 @@ const Product = (props) => {
                   }}
                 >
                   <View style={styles.itemBg}>
-                    {Function.compareTimeNow(item.dateDiscountStart, item.dateDiscountEnd)> 0 && (
+                    {Function.compareTimeNow(
+                      item.dateDiscountStart,
+                      item.dateDiscountEnd
+                    ) > 0 && (
                       <Image
                         source={BlinkSaleImg}
                         style={styles.blinkSaleImg}
@@ -63,16 +69,43 @@ const Product = (props) => {
                     >
                       {item.name}
                     </Text>
+                    <View style={styles.starWrapper}>
+                      {[1, 2, 3, 4, 5].map((star, index) => {
+                        return (
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size={12}
+                            color={
+                              Function.getProductStars(
+                                item.productID,
+                                state.thach.comments
+                              ) >=
+                              index + 1
+                                ? Color.colorOrange
+                                : Color.colorGray
+                            }
+                          />
+                        );
+                      })}
+                    </View>
                     <View style={styles.itemPriceWrapper}>
                       <Text style={styles.itemPriceSale}>
                         {Function.toVND(
                           Function.calculatePrice(
                             item.price,
-                            Function.compareTimeNow(item.dateDiscountStart, item.dateDiscountEnd) ? item.discountPercent : 0
+                            Function.compareTimeNow(
+                              item.dateDiscountStart,
+                              item.dateDiscountEnd
+                            )
+                              ? item.discountPercent
+                              : 0
                           )
                         )}
                       </Text>
-                      {Function.compareTimeNow(item.dateDiscountStart, item.dateDiscountEnd) && (
+                      {Function.compareTimeNow(
+                        item.dateDiscountStart,
+                        item.dateDiscountEnd
+                      ) && (
                         <Text style={styles.itemPriceOrigin}>
                           {Function.toVND(item.price)}
                         </Text>

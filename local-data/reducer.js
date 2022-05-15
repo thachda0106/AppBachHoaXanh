@@ -578,7 +578,6 @@ const reducer = (state, action) => {
         for (const attribute in comment) {
           newComment[attribute] = comment[attribute];
         }
-        newComment.commentID = comment.id;
         stateTemp.comments.push(newComment);
       });
       return {

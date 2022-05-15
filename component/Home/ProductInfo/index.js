@@ -101,11 +101,14 @@ const ProductInfo = (props) => {
 
   // Thêm sản phẩm vào giỏ
   const addToCart = async () => {
-    setIsLoading(true)
-    let res = await APICaller.addProductToUserCart(state.thach.currentUser.userID, product)
-    setIsLoading(false)
+    setIsLoading(true);
+    let res = await APICaller.addProductToUserCart(
+      state.thach.currentUser.userID,
+      product
+    );
+    setIsLoading(false);
     if (res.status >= 200 && res.status <= 299) {
-      dispatch(Actions.getCurrentUser(res.data))
+      dispatch(Actions.getCurrentUser(res.data));
       Function.showToast("success", "Đã thêm vào giỏ");
     } else {
       Function.showToast("error", "Đã có lỗi khi thêm vào giỏ" + res.status);
@@ -124,14 +127,16 @@ const ProductInfo = (props) => {
     };
     let res = await APICaller.addAPIComments(newComment);
     if (res.status <= 299 && res.status >= 200) {
-      let res2 = await APICaller.getAPIComments()
-      setIsLoading(false)
-      if(res2.status <= 299 && res2.status >= 200){
-        Function.showToast("success", "Post comment thành công " + res.status);
-        dispatch(Actions.setCommentsFromAPI(res2.data))
-      }
-      else{
-        Function.showToast("error", "Đã có lỗi xảy ra khi lấy comment về "+res.status)
+      let res2 = await APICaller.getAPIComments();
+      setIsLoading(false);
+      if (res2.status <= 299 && res2.status >= 200) {
+        Function.showToast("success", "Post comment thành công ");
+        dispatch(Actions.setCommentsFromAPI(res2.data));
+      } else {
+        Function.showToast(
+          "error",
+          "Đã có lỗi xảy ra khi lấy comment về " + res.status
+        );
       }
     } else {
       setIsLoading(false);
@@ -184,6 +189,25 @@ const ProductInfo = (props) => {
             <Text style={styles.productExpiry}>
               HSD: {Function.timestampToDate(product.dateMFG)}
             </Text>
+            <View style={styles.starWrapper}>
+              {[1, 2, 3, 4, 5].map((star, index) => {
+                return (
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    size={20}
+                    color={
+                      Function.getProductStars(
+                        product.productID,
+                        state.thach.comments
+                      ) >=
+                      index + 1
+                        ? Color.colorOrange
+                        : Color.colorGray
+                    }
+                  />
+                );
+              })}
+            </View>
             {product.quantity < 10 && product.quantity > 0 && (
               <Text style={styles.fewQuantityText}>
                 Chỉ còn {product.quantity} sản phẩm
@@ -232,7 +256,7 @@ const ProductInfo = (props) => {
                     if (isLogged) {
                       addToCart();
                     } else {
-                      props.navigation.navigate("LoginForm",{})
+                      props.navigation.navigate("LoginForm", {});
                       Function.showToast(
                         "info",
                         "Bạn cần đăng nhập để thực hiện chức năng này"
@@ -387,7 +411,7 @@ const ProductInfo = (props) => {
           <View style={styles.commentList}>
             {comments &&
               comments.map((comment, index) => {
-                return <Comment key={index} comment={comment} />;
+                return <Comment key={index} comment={comment} setIsLoading={setIsLoading}/>;
               })}
           </View>
         </View>

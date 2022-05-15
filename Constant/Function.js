@@ -204,5 +204,21 @@ export const Function = {
     if(now < start) return false
     if(now - end > 86400) return false
     return true
-  }
+  },
+
+  //Lấy số sao trung bình của một sản phẩm
+  getProductStars: (productID, comments) =>{
+    let rates = 0;
+    let star = 0;
+    let sum = 0;
+    for(let i = 0; i<comments.length; i++){
+      if(comments[i].productID == productID){
+        sum += 5;
+        star += comments[i].starNumber
+      }
+    }
+    if(sum === 0) return 5
+    rates = (star / sum) * 5
+    return Math.round(rates * 10) / 10
+  },
 };
