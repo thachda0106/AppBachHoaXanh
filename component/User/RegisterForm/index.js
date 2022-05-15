@@ -89,8 +89,9 @@ const RegisterForm = (props) => {
       setIsLoading(false)
       if (res.status > 199 && res.status < 300) {
         dispatch(Actions.register(newUser));
+        props.navigation.navigate("LoginForm", {username: newUser.username, password: newUser.password})
       } else {
-        Function.showToast("error", "Đã có lỗi xảy ra " + res.status);
+        Function.showToast("error", "Đã có lỗi xảy ra khi đăng ký" + res.status);
       }
     }
   };
