@@ -26,6 +26,15 @@ const LoginForm = (props) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  useEffect(()=>{
+    if(props.route.params.username){
+      setUsername(props.route.params.username)
+      setPassword(props.route.params.password)
+    }
+  })
+
+  
+
   // Function
   const closeDialog = () => {
     setTimeout(() => {
