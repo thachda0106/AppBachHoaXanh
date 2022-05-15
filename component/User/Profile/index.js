@@ -21,6 +21,7 @@ import {
   faLock,
   faLocation,
   faAddressCard,
+  faAngleLeft
 } from "@fortawesome/free-solid-svg-icons";
 import * as Actions from "../../../local-data/Actions";
 import Color from "../../../Constant/Color";
@@ -75,9 +76,12 @@ const Profile = (props) => {
       let res = await APICaller.editAPIUsers(editProfile);
       setIsLoading(false);
       if (res.status > 199 && res.status < 300) {
-        dispatch(Actions.changeProfile(editProfile));
+        dispatch(Actions.getCurrentUser(res.data()));
       } else {
-        Function.showToast("error", "Đã có lỗi xảy ra " + res.status);
+        Function.showToast(
+          "error",
+          "Đã có lỗi xảy ra khi cập nhật thông tin" + res.status
+        );
       }
     }
   };
@@ -178,7 +182,30 @@ const Profile = (props) => {
           </View>
         </BottomSheet>
         {/* Header */}
-        <View style={styles.header}>
+        <View style={styles.backWrapper}>
+          <TouchableOpacity
+            style={styles.backBtn}
+            onPress={() => {
+              props.navigation.navigate("User", {});
+            }}
+          >
+            <FontAwesomeIcon icon={faAngleLeft} size={20} color={"black"} />
+          </TouchableOpacity>
+          <Text style={{ fontSize: 20, marginLeft: 24, textAlign: 'center' }}>Thông tin cá nhân</Text>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            onPress={() => {
+              handleEditProfile();
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faCheck}
+              color={'black'}
+              size={24}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* <View style={styles.header}>
           <TouchableOpacity
             onPress={() => {
               props.navigation.goBack();
@@ -200,7 +227,7 @@ const Profile = (props) => {
               size={24}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* Content */}
         <View style={styles.content}>
           <TouchableOpacity
@@ -297,7 +324,12 @@ const Profile = (props) => {
             </View>
           </View>
           <View style={styles.inputWrapper}>
-            <TouchableOpacity style={styles.getAddressBtn} onPress={()=>{props.navigation.navigate("Address",{})}}>
+            <TouchableOpacity
+              style={styles.getAddressBtn}
+              onPress={() => {
+                props.navigation.navigate("Address", {});
+              }}
+            >
               <Text style={styles.getAddressBtnText}>Lấy địa chỉ chi tiết</Text>
             </TouchableOpacity>
           </View>

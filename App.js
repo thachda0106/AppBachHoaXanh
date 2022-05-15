@@ -24,6 +24,7 @@ import Order from './component/Order'
 import History from './component/User/History';
 import OrderInfo from './component/User/History/OrderInfo';
 import Success from './component/Order/Success'
+import ChangePassword from './component/User/ChangePassword';
 const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
@@ -66,6 +67,7 @@ export default function App() {
 						<Stack.Screen name='History' component={History} options={{ animation: 'fade_from_bottom' }} />
 						<Stack.Screen name='OrderInfo' component={OrderInfo} options={{ animation: 'slide_from_right' }} />
 						<Stack.Screen name='Success' component={Success} options={{ animation: 'fade_from_bottom' }} />
+						<Stack.Screen name='ChangePassword' component={ChangePassword} options={{ animation: 'fade_from_bottom' }} />
 					</Stack.Navigator>
 				</NavigationContainer>
 				<Toast />

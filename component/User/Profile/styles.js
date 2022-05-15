@@ -9,7 +9,19 @@ export const styles = StyleSheet.create({
     position: "relative",
     flex: 1,
     marginTop: 36,
-    backgroundColor: 'white',
+    backgroundColor: "#eee",
+  },
+  backWrapper: {
+    padding: 8,
+    width: "100%",
+    backgroundColor: "white",
+    borderStyle: "solid",
+    borderBottomColor: Color.colorLightGray,
+    borderBottomWidth: 1,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   header: {
     width: "100%",
@@ -24,7 +36,7 @@ export const styles = StyleSheet.create({
     ...Styles.TitleText,
     flex: 1,
     marginLeft: 20,
-    color: 'white'
+    color: "white",
   },
   headerBtn: {
     marginHorizontal: 8,
@@ -75,42 +87,42 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     paddingVertical: 8,
   },
-  pickImageWrapper:{
-    width: '100%',
+  pickImageWrapper: {
+    width: "100%",
     padding: 24,
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
-  pickImgTitle:{
+  pickImgTitle: {
     ...Styles.BlackLargeText,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
-  pickImgDesc:{
+  pickImgDesc: {
     ...Styles.BlackNormalText,
     marginVertical: 4,
   },
-  pickImgBtn:{
-    width: '100%',
+  pickImgBtn: {
+    width: "100%",
     backgroundColor: Color.colorBlueViolet,
     borderRadius: 10,
     paddingVertical: 16,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 8,
   },
-  pickImgTxt:{
+  pickImgTxt: {
     fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
-    textTransform: 'uppercase'
+    color: "white",
+    fontWeight: "bold",
+    textTransform: "uppercase",
   },
-  getAddressBtn:{
-    width: '100%'
+  getAddressBtn: {
+    width: "100%",
   },
-  getAddressBtnText:{
+  getAddressBtnText: {
     color: Color.colorPrimary,
-    textDecorationLine: 'underline',
-    textAlign: 'center'
-  }
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
 });
