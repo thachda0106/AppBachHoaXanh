@@ -153,7 +153,7 @@ const OrderInfo = (props) => {
           01 Lê Thành Phương, thành phố Tuy Hòa, Phú Yên</p>
     
         <p style="margin: 0">       
-         <img src=${'https://cdn-icons.flaticon.com/png/512/3367/premium/3367586.png?token=exp=1652624901~hmac=b2b76e3d418c05c8b861722cc4b7f167'} style="width:20px; height:20px">
+         <img src=${'https://cdn-icons.flaticon.com/png/512/5450/premium/5450743.png?token=exp=1652634645~hmac=ef77cce597526110430808f5ba04adad'} style="width:20px; height:20px">
 ${order.shippingAddress}</p>
       </div>
     
@@ -170,8 +170,8 @@ ${order.shippingAddress}</p>
     
       <div style="background-color: #fff;margin-top: 10px;display: flex; flex-direction:row; padding: 10; align-items: center">
         <span>Tổng cộng</span>
-        <img src=${'https://cdn-icons-png.flaticon.com/512/631/631200.png'} style="width:20px; height:20px; margin-top: 5px; margin-bottom: 5px">
-        <span> ${Function.toVND(Function.getOrderAllPrice(order))}</span>
+        <img src=${'https://cdn-icons-png.flaticon.com/512/631/631200.png'} style="width:20px; height:20px; margin-top: 5px; margin-bottom: 5px"; >
+        <span style="margin-left: 15px"> ${Function.toVND(Function.getOrderAllPrice(order))}</span>
     
       </div>
     
