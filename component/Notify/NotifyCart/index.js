@@ -22,16 +22,21 @@ const NotifyCart = ({ alert, handleDelete }) => {
     },
   ];
 
-  const handleMarkAsRead = () =>{
-	dispatch(Actions.markAsReadNotify(alert.alertID))
-  }
+  const handleMarkAsRead = () => {
+    dispatch(Actions.markAsReadNotify(alert.alertID));
+  };
 
   return (
     <Swipeout right={swipeoutBtns} style={{ backgroundColor: "white" }}>
       <View>
         <View style={[styles.container, !alert.isRead ? styles.mark : {}]}>
           {!alert.isRead && (
-            <TouchableOpacity style={styles.markAsReadBtn} onPress={()=>{handleMarkAsRead()}}>
+            <TouchableOpacity
+              style={styles.markAsReadBtn}
+              onPress={() => {
+                handleMarkAsRead();
+              }}
+            >
               <Text style={styles.markAsReadText}>Đánh dấu đã đọc</Text>
             </TouchableOpacity>
           )}
