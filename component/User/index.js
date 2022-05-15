@@ -117,15 +117,20 @@ const User = (props) => {
           <Text style={styles.optionItemText}>Thông tin cá nhân</Text>
         </TouchableOpacity>
         {/* Thay doi mat khau */}
-        <TouchableOpacity style={styles.optionItem}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => {
+            props.navigation.navigate("ChangePassword", {});
+          }}
+        >
           <Image source={ChangePasswordIcon} style={styles.optionItemIcon} />
           <Text style={styles.optionItemText}>Thay đổi mật khẩu</Text>
         </TouchableOpacity>
         {/* Dia chi giao hang */}
-        <TouchableOpacity style={styles.optionItem}>
+        {/* <TouchableOpacity style={styles.optionItem}>
           <Image source={AddressIcon} style={styles.optionItemIcon} />
           <Text style={styles.optionItemText}>Địa chỉ giao hàng</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <MenuBottom navigation={props.navigation} select={4} />
