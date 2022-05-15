@@ -482,6 +482,17 @@ export default APICaller = {
       });
   },
 
+  deleteComment: async (id) =>{
+    return axios({
+      method: "DELETE",
+      url: `https://bach-hoa.herokuapp.com/comments/delete/${id}`,
+    })
+      .then((res) => res)
+      .catch((error) => {
+        return error.response;
+      });
+  },
+
   //API Voucher
   getAPIVouchers: async () => {
     return axios({

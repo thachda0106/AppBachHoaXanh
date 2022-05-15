@@ -31,6 +31,16 @@ export const styles = StyleSheet.create({
     borderBottomColor: Color.colorLightGray,
     borderBottomWidth: 1,
   },
+  starWrapper:{
+    position: 'absolute',
+    bottom: 10,
+    left: 120,
+    width: '100%',
+    marginVertical: 4,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   productHeaderWrapper: {
     width: "100%",
     backgroundColor: "white",

@@ -58,6 +58,17 @@ export const styles = StyleSheet.create({
     height: 100,
     resizeMode: "contain",
   },
+  starWrapper:{
+    width: '100%',
+    marginVertical: 4,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  starNumber:{
+    fontSize: 12,
+    marginHorizontal: 4
+  },  
   itemName: {
     fontSize: 12,
     marginVertical: 8,
