@@ -23,7 +23,7 @@ const History = (props) => {
           myOrders.push(state.thach.orders[i])
         }
       }
-      return Function.orderBy(myOrders,id, -1)
+      return Function.orderBy(myOrders,'dateCreate', -1)
     });
   }, [state]);
 
