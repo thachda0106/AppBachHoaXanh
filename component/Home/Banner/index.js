@@ -6,6 +6,7 @@ import Banner1 from "../../../assets/img/banner1.png";
 import Banner2 from "../../../assets/img/banner2.png";
 import Banner3 from "../../../assets/img/banner3.png";
 import Banner4 from "../../../assets/img/banner4.png";
+import Banner5 from "../../../assets/img/banner5.png";
 
 const Banner = () => {
   return (
@@ -22,6 +23,9 @@ const Banner = () => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Image source={Banner4} style={styles.bannerImg} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image source={Banner5} style={styles.bannerImg} />
         </TouchableOpacity>
       </Swiper>
     </View>
