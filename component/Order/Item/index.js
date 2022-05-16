@@ -19,7 +19,7 @@ const Item = (props) => {
       <Image style={styles.img} source={{ uri: product.img,}} />
       <View>
         <Text style={styles.text} numberOfLines={3} ellipsizeMode='tail' >{product.name} ({Function.toVND(product.price)}/sp)</Text>
-        <Text>SL: {props.orderProduct.quantity}</Text>
+        <Text>Số lượng: {props.orderProduct.quantity}</Text>
         <Text>Giảm: {Function.toVND(reduce)}</Text>
         <Text>Tổng tiền: {Function.toVND(product.price * props.orderProduct.quantity - reduce)}  </Text>
       </View>

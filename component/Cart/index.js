@@ -205,6 +205,9 @@ const Cart = (props) => {
                   "info",
                   "Bạn chưa chọn sản phẩm nào để thanh toán!"
                 );
+              else if(!Function.checkProductQuantity(cartList, state.thach.products)){
+                return
+              }
               else
                 props.navigation.navigate("Order", {
                   navigation: props.navigation,

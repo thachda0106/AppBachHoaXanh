@@ -222,6 +222,20 @@ export const Function = {
     return Math.round(rates * 10) / 10
   },
 
+  //Kiểm tra xem sản phẩm đó còn hàng hay không
+  checkProductQuantity: (cartList, products) =>{
+    for(let i = 0 ;i <cartList.length; i++){
+      if(cartList[i].check){
+        let product = Function.findProduct(products, cartList[i].productID)
+        if(product.quantity < cartList[i].quantity){
+          Function.showToast("error", product.name+" chỉ còn lại "+product.quantity+" sản phẩm, bạn vui lòng chọn ít hơn");
+          return false;
+        }
+      }
+    }
+    return true
+  },
+
   htmlOrderProducts: (order)=>{
     console.log(order)
           let html = ``

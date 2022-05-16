@@ -195,6 +195,7 @@ const ProductInfo = (props) => {
                   <FontAwesomeIcon
                     icon={faStar}
                     size={20}
+                    key={index}
                     color={
                       Function.getProductStars(
                         product.productID,
