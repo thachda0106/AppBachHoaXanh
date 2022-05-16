@@ -25,6 +25,10 @@ import History from './component/User/History';
 import OrderInfo from './component/User/History/OrderInfo';
 import Success from './component/Order/Success'
 import ChangePassword from './component/User/ChangePassword';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
