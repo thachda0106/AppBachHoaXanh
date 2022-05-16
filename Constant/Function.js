@@ -23,7 +23,7 @@ export const Function = {
   getMaxIndex: (list, code) => {
     let max = 0;
     for (let i = 0; i < list.length; i++) {
-      if (list[i][code] > max) max = list[i][code];
+      if (Number(list[i][code]) > max) max = list[i][code];
     }
     return max;
   },
@@ -163,9 +163,9 @@ export const Function = {
       res += order.listProductCart[i].productName + ", ";
     }
     res = res.slice(0, res.length - 2);
-    // if (res.length > 32) {
-    //   res = res.slice(0, 31) + "...";
-    // }
+    if (res.length > 32) {
+      res = res.slice(0, 31) + "...";
+    }
     return res;
   },
 

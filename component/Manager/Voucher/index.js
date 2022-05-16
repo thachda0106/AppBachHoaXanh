@@ -176,7 +176,7 @@ const Voucher = (props) => {
         dispatch(Actions.setVouchersFromAPI(res.data));
         Function.showToast("success", "Thêm voucher mới thành công");
         if(noticeAlert){
-          res = await APICaller.addAlert("", "Có mã giảm giá mới", "Vào voucher và thu thập mã giảm giá mới để được những ưu đãi tốt nhất")
+          res = await APICaller.addAlert("", "Có mã giảm giá mới", "Mã giảm giá: \""+ newVoucher.description+"\" đã xuất hiện, hãy thu thập ngay để được những ưu đãi tốt nhất")
         setIsLoading(false)
         if (res.status >= 200 && res.status <= 299) {
           dispatch(Actions.addAlert(res.data))

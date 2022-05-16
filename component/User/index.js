@@ -27,7 +27,7 @@ const User = (props) => {
       <View style={styles.header}>
         <View style={styles.flex}>
           <View style={styles.avatarWrapper}>
-            <Image source={{ uri: user.avatar }} style={styles.userAvatar} />
+            <Image source={{ uri: user.avatar  + '?v=' + new Date() }} style={styles.userAvatar} />
           </View>
           <Text style={styles.customerName}>{user.fullName}</Text>
         </View>

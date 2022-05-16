@@ -57,7 +57,7 @@ const Voucher = (props) => {
 						onPress={() => {
 							props.navigation.goBack();
 						}}>
-						<FontAwesomeIcon icon={faAngleLeft} size={20} color={'black'} />
+						<FontAwesomeIcon icon={faAngleLeft} size={20} color={'white'} />
 					</TouchableOpacity>
 					<Text style={styles.headerTitle}>Mã giảm giá</Text>
 				</View>
