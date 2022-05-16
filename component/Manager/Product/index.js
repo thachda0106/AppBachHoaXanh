@@ -456,7 +456,7 @@ const Product = (props) => {
                 openDatePicker(4);
               }}
             >
-              NSX: {Function.timestampToDate(dateEXP)}
+              HSD: {Function.timestampToDate(dateEXP)}
             </Text>
           </View>
 
