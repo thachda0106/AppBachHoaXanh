@@ -63,7 +63,7 @@ const ForgetPass = (props) => {
         res = await APICaller.getAPIUsers();
         setIsLoading(false);
         setSendOtp(true);
-        setTimeCountOtp(5);
+        setTimeCountOtp(60);
         if (res.status > 199 && res.status < 299) {
           dispatch(Actions.setUsersFromAPI(res.data));
           Function.showToast("success", "Mã otp đã được gửi vào email của bạn");

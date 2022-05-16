@@ -50,6 +50,7 @@ const Chart = (props) => {
           marginVertical: 8,
           borderRadius: 16,
         }}
+
       />
     </View>
   );

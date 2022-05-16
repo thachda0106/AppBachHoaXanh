@@ -121,7 +121,6 @@ const Statistic = (props) => {
 
       {/* Content */}
       <View style={styles.chart}>
-        <Text style={styles.title}>Thống kê doanh thu theo từng tháng</Text>
         <View style={styles.searchWrapper}>
           <TextInput
             placeholder="Tìm kiếm theo năm"
@@ -139,6 +138,7 @@ const Statistic = (props) => {
             <Text style={styles.searchBtnText}>Tìm kiếm</Text>
           </TouchableOpacity>
         </View>
+        <Text style={styles.title}>Thống kê doanh thu theo từng tháng</Text>
         <ScrollView horizontal>
           <Chart turnover={turnover} />
         </ScrollView>

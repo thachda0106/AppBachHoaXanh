@@ -21,7 +21,7 @@ import {
   faLock,
   faLocation,
   faAddressCard,
-  faAngleLeft
+  faAngleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import * as Actions from "../../../local-data/Actions";
 import Color from "../../../Constant/Color";
@@ -73,10 +73,12 @@ const Profile = (props) => {
   const handleEditProfile = async () => {
     if (checkInput()) {
       setIsLoading(true);
+      console.log("avatar trong: " + editProfile.avatar);
       let res = await APICaller.editAPIUsers(editProfile);
       setIsLoading(false);
       if (res.status > 199 && res.status < 300) {
-        dispatch(Actions.getCurrentUser(res.data()));
+        Function.showToast("success", "Cập nhật thông tin thành công");
+        dispatch(Actions.getCurrentUser(res.data));
       } else {
         Function.showToast(
           "error",
@@ -108,7 +110,10 @@ const Profile = (props) => {
     }
     if (!result.cancelled) {
       // setImg(result.uri);
-      setEditProfile({ ...editProfile, avatar: result.uri });
+      setEditProfile({
+        ...editProfile,
+        avatar: result.uri,
+      });
     }
     setShowTakeImage(false);
   };
@@ -191,18 +196,16 @@ const Profile = (props) => {
           >
             <FontAwesomeIcon icon={faAngleLeft} size={20} color={"black"} />
           </TouchableOpacity>
-          <Text style={{ fontSize: 20, marginLeft: 24, textAlign: 'center' }}>Thông tin cá nhân</Text>
+          <Text style={{ fontSize: 20, marginLeft: 24, textAlign: "center" }}>
+            Thông tin cá nhân
+          </Text>
           <TouchableOpacity
             style={styles.headerBtn}
             onPress={() => {
               handleEditProfile();
             }}
           >
-            <FontAwesomeIcon
-              icon={faCheck}
-              color={'black'}
-              size={24}
-            />
+            <FontAwesomeIcon icon={faCheck} color={"black"} size={24} />
           </TouchableOpacity>
         </View>
         {/* <View style={styles.header}>
@@ -237,7 +240,12 @@ const Profile = (props) => {
             activeOpacity={0.4}
             style={styles.avatarWrapper}
           >
-            <Image source={{ uri: editProfile.avatar }} style={styles.avatar} />
+            <Image
+              source={{
+                uri: editProfile.avatar  + '?v=' + new Date()
+              }}
+              style={styles.avatar}
+            />
           </TouchableOpacity>
           <View style={styles.contentInfo}>
             <View style={styles.iconWrapper}>

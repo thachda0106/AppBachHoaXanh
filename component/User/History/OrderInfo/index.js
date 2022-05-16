@@ -255,6 +255,9 @@ ${order.shippingAddress}</p>
               <Text style={styles.orderNameText}>
                 {Function.getOrderName(order)}
               </Text>
+              <Text style={{fontSize: 12, color: Color.colorDarkGray, marginTop: 4}}>
+                Khách hàng: Lương Minh Tiến
+              </Text>
             </View>
           </View>
           {/* Địa chỉ */}

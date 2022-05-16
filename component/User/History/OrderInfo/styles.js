@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     height: "100%",
-    flexDirection: "row",
+    flexDirection: 'column',
   },
   orderNameText: {
     fontSize: 14,

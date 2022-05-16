@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     marginLeft: 20,
+    color: 'white'
   },
   btnAccept:{
     height: 48,
