@@ -31,6 +31,7 @@ const Product = (props) => {
 
   getProductsfromType();
 
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{props.name}</Text>
@@ -61,7 +62,7 @@ const Product = (props) => {
                         style={styles.blinkSaleImg}
                       />
                     )}
-                    <Image source={{ uri: item.img }} style={styles.itemImg} />
+                    <Image source={{ uri: item.productImage }} style={styles.itemImg} />
                     <Text
                       style={styles.itemName}
                       numberOfLines={2}

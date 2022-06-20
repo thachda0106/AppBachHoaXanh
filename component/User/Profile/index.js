@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { styles } from "./styles";
+import * as FileSystem from 'expo-file-system';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faTimes,
@@ -73,7 +74,7 @@ const Profile = (props) => {
   const handleEditProfile = async () => {
     if (checkInput()) {
       setIsLoading(true);
-      console.log("avatar trong: " + editProfile.avatar);
+      console.log("avatar trong: " + editProfile.avatar.slice(0,50));
       let res = await APICaller.editAPIUsers(editProfile);
       setIsLoading(false);
       if (res.status > 199 && res.status < 300) {
@@ -110,9 +111,12 @@ const Profile = (props) => {
     }
     if (!result.cancelled) {
       // setImg(result.uri);
+      const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
       setEditProfile({
         ...editProfile,
         avatar: result.uri,
+        userImage: 'data:image/png;base64,' + base64,
+
       });
     }
     setShowTakeImage(false);
@@ -242,7 +246,7 @@ const Profile = (props) => {
           >
             <Image
               source={{
-                uri: editProfile.avatar  + '?v=' + new Date()
+                uri: editProfile.userImage
               }}
               style={styles.avatar}
             />

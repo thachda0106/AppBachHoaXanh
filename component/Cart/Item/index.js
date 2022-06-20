@@ -152,7 +152,7 @@ const Item = (props) => {
               selectItem();
             }}
           />
-          <Image source={{ uri: cartProduct.img }} style={styles.img} />
+          <Image source={{ uri: cartProduct.productImage }} style={styles.img} />
           <View style={styles.infoWrapper}>
             <Text style={styles.name}>
               {Function.cropText(cartProduct.name, 32)}

@@ -10,6 +10,7 @@ import {
   Animated,
   Alert,
 } from "react-native";
+import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { styles } from "./styles";
 import { DataTable } from "react-native-paper";
@@ -51,6 +52,7 @@ const Product = (props) => {
   const [category, setCategory] = useState(0);
   const [categoryName, setCategoryName] = useState("");
   const [img, setImg] = useState();
+  const [productImage, setProductImage] = useState("")
   const [categories, setCategories] = useState();
   const [dateMFG, setDateMFG] = useState(new Date().getTime());
   const [dateEXP, setDateEXP] = useState(new Date().getTime());
@@ -126,7 +128,7 @@ const Product = (props) => {
   };
 
   const getNewProduct = () => {
-    return {
+    let data =  {
       productID:
         editSelected === -1
           ? Number(Function.getMaxIndex(state.thach.products, "productID")) + 1
@@ -135,6 +137,7 @@ const Product = (props) => {
       price,
       quantity,
       img,
+      productImage,
       categoryID: category,
       discountPercent,
       dateMFG: parseInt(dateMFG / 1000),
@@ -146,6 +149,8 @@ const Product = (props) => {
       dateDiscountStart: parseInt(dateDiscountStart / 1000),
       dateDiscountEnd: parseInt(dateDiscountEnd / 1000),
     };
+
+    return data
   };
 
   const handleAddProduct = async () => {
@@ -179,9 +184,11 @@ const Product = (props) => {
       } else {
         setIsLoading(true);
         let newProduct = getNewProduct();
+        console.log({newProduct});
         let res = await APICaller.addAPIProduct(newProduct);
         setIsLoading(false);
         if (res.status >= 200 && res.status <= 299) {
+          // console.log(res)
           dispatch(Actions.addProduct(newProduct));
         } else {
           Function.showToast("error", "Đã có lỗi xảy ra " + res.status);
@@ -208,7 +215,8 @@ const Product = (props) => {
     setDateEXP(product.dateEXP);
     setDescription(product.description);
     setIngredient(product.ingredient);
-    setImg(product.img);
+    setImg();
+    setProductImage(product.productImage)
   };
 
   const handleBackToAdd = () => {
@@ -228,6 +236,7 @@ const Product = (props) => {
     setDescription("");
     setIngredient("");
     setImg();
+    setProductImage("")
   };
 
   const handleEdit = () => {
@@ -239,6 +248,7 @@ const Product = (props) => {
       {
         text: "Đồng ý",
         onPress: async () => {
+          // console.log(getNewProduct())
           setIsLoading(true);
           let res = await APICaller.editAPIProduct(getNewProduct());
           setIsLoading(false);
@@ -300,9 +310,10 @@ const Product = (props) => {
     });
     if (!result.cancelled) {
       setImg(result.uri);
+      const base64 = await FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' });
+      setProductImage('data:image/png;base64,' + base64);
     }
   };
-
   return (
     <View style={styles.container}>
       {isLoading && <Loading />}
@@ -483,10 +494,14 @@ const Product = (props) => {
           />
 
           <View style={styles.controlImgWrapper}>
-            <Image
+            {productImage? <Image
+              source={{ uri: img ? img : productImage }}
+              style={styles.controlImg}
+            />: <Image
               source={{ uri: img ? img : EmptyImgUri }}
               style={styles.controlImg}
-            />
+            /> }
+            
             <TouchableOpacity
               style={styles.controlImgBtn}
               onPress={() => {
@@ -618,7 +633,7 @@ const Product = (props) => {
                         >
                           <Image
                             style={styles.tableImg}
-                            source={{ uri: item.img }}
+                            source={{ uri: item.productImage }}
                             resizeMode={"cover"} // cover or contain its upto you view look
                           />
                         </Animated.View>

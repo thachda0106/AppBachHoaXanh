@@ -58,7 +58,7 @@ const Item = (props) => {
         <Image
           source={{
             uri: Function.findProduct(state.thach.products, voucher.productID)
-              .img,
+              .productImage,
           }}
           style={[styles.img, { opacity: 0.3 }]}
         />
@@ -92,7 +92,7 @@ const Item = (props) => {
       <Image
         source={{
           uri: Function.findProduct(state.thach.products, voucher.productID)
-            .img,
+            .productImage,
         }}
         style={styles.img}
       />

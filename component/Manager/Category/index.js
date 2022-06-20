@@ -19,6 +19,7 @@ import EmptyImg from "../../../assets/img/tien/empty.png";
 import FolderIcon from "../../../assets/img/tien/folder_icon.gif";
 import * as ImagePicker from "expo-image-picker";
 import Color from "../../../Constant/Color";
+import * as FileSystem from 'expo-file-system';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSleigh, faUndo, faBars } from "@fortawesome/free-solid-svg-icons";
 import { Function } from "../../../Constant/Function";
@@ -90,10 +91,13 @@ const Category = (props) => {
     if (!checkInput()) {
       return;
     }
+    const base64 = await FileSystem.readAsStringAsync(img, { encoding: 'base64' });
+
     let category = {
       categoryID:
         Number(Function.getMaxIndex(state.thach.categories, "categoryID")) + 1,
       name: name,
+      categoryImage: 'data:image/png;base64,' + base64,
       img: img,
     };
     setIsLoading(true)
@@ -308,7 +312,7 @@ const Category = (props) => {
                   >
                     <Image
                       style={styles.tableImg}
-                      source={{ uri: item.img }}
+                      source={{ uri: item.categoryImage }}
                       resizeMode={"cover"} // cover or contain its upto you view look
                     />
                   </Animated.View>

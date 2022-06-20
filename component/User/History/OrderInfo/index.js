@@ -321,6 +321,7 @@ ${order.shippingAddress}</p>
               <Text style={[styles.priceTitle, { fontWeight: "bold" }]}>
                 Tổng cộng
               </Text>
+              {console.log(order.voucherDiscount) }
               <Image source={MoneysIcon} style={styles.moneysIcon} />
               <Text style={[styles.priceText, { fontWeight: "bold" }]}>
                 {Function.toVND(Function.getOrderAllPrice(order))}

@@ -53,7 +53,7 @@ const VoucherCart = (props) => {
 	const imgProduct =
 		typeof productDiscount === 'undefined'
 			? 'http://cdn.shopify.com/s/files/1/0413/3502/9917/collections/all-products-s_1200x1200.png?v=1632536377'
-			: productDiscount.img;
+			: productDiscount.productImage;
 
 	return (
 		<View style={[ styles.container, voucher.quantity == 0 ? styles.effeteContainer : styles.collectContainer ]}>

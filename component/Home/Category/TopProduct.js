@@ -25,7 +25,7 @@ const TopProduct = ({ data }) => {
         {selectedCategory === data.categoryID && (
           <View style={styles.active}></View>
         )}
-        <Image source={{uri: data.img}} style={styles.topProImg} />
+        <Image source={{uri: data.categoryImage}} style={styles.topProImg} />
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.topProTxt}>
           {data.name}
         </Text>

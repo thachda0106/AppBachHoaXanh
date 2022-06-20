@@ -1,7 +1,10 @@
 import axios from "axios";
 import { Function } from "../Constant/Function";
 import TamImg from "../assets/img/tien/empty.png";
+import * as FileSystem from 'expo-file-system';
 
+// https://bach-hoa.herokuapp.com
+//http://localhost:8080/
 export default APICaller = {
   // Categories
   getAPICategories: async () => {
@@ -16,6 +19,7 @@ export default APICaller = {
       });
   },
   addAPICategory: async (category) => {
+    const base64 = await FileSystem.readAsStringAsync(category.img, { encoding: 'base64' });
     var data = new FormData();
     data.append("file", {
       uri: category.img,
@@ -39,6 +43,7 @@ export default APICaller = {
           data: JSON.stringify({
             categoryID: category.categoryID,
             name: category.name,
+            categoryImage: 'data:image/png;base64,' + base64,
           }),
           headers: { "Content-Type": "application/json" },
         })
@@ -53,6 +58,7 @@ export default APICaller = {
       });
   },
   editAPICategory: async (category) => {
+    const base64 = await FileSystem.readAsStringAsync(category.img, { encoding: 'base64' });
     var data = new FormData();
     data.append("file", {
       uri: category.img,
@@ -75,6 +81,8 @@ export default APICaller = {
           url: `https://bach-hoa.herokuapp.com/categories/update/${category.categoryID}`,
           data: JSON.stringify({
             name: category.name,
+            categoryImage: 'data:image/png;base64,' + base64,
+
           }),
           headers: { "Content-Type": "application/json" },
         })
@@ -132,6 +140,7 @@ export default APICaller = {
       .then(async () => {
         let productJSON = JSON.stringify({
           productID: product.productID,
+          productImage: product.productImage,
           name: product.name,
           price: product.price,
           discountPercent: product.discountPercent,
@@ -169,6 +178,7 @@ export default APICaller = {
       });
   },
   editAPIProduct: async (product) => {
+    // console.log({"ss":product})
     var data = new FormData();
     data.append("file", {
       uri: product.img,
@@ -191,6 +201,7 @@ export default APICaller = {
           url: `https://bach-hoa.herokuapp.com/products/update/${product.productID}`,
           data: JSON.stringify({
             productID: product.productID,
+            productImage: product.productImage,
             name: product.name,
             price: product.price,
             discountPercent: product.discountPercent,
@@ -383,6 +394,7 @@ export default APICaller = {
             userID: user.userID,
             fullName: user.fullName,
             emailAddress: user.email,
+            userImage: user.userImage,
             username: user.username,
             password: user.password,
             address: user.address,

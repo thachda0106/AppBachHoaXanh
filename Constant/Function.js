@@ -186,7 +186,6 @@ export const Function = {
 
   // Tính tổng tiền của đơn hàng (chưa tính voucher)
   getOrderAllPriceNoVoucher: (order) => {
-    console.log(order)
     let price = 0;
     for (let i = 0; i < order.listProductCart.length; i++) {
       price +=

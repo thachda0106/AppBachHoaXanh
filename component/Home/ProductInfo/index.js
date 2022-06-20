@@ -185,7 +185,7 @@ const ProductInfo = (props) => {
           ) && <Image source={BlinkSaleImg} style={styles.blinkSaleImg} />}
           {/* Hinh san pham */}
           <View style={styles.productImgWrapper}>
-            <Image source={{ uri: product.img }} style={styles.productImg} />
+            <Image source={{ uri: product.productImage }} style={styles.productImg} />
             <Text style={styles.productExpiry}>
               HSD: {Function.timestampToDate(product.dateMFG)}
             </Text>

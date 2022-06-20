@@ -38,7 +38,7 @@ const Item = (props) => {
         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.name}>{Function.getOrderName(props.order)}</Text>
       </View>
       <View style={styles.priceWrapper}>
-        <Text style={styles.price}>{Function.toVND(Function.getOrderAllPrice(props.order))}</Text>
+        <Text style={styles.price}>{Function.toVND(Function.getOrderAllPrice(props.order) )}</Text>
       </View>
     </TouchableOpacity>
   );
